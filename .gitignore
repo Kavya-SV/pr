@@ -1,0 +1,13 @@
+# Binaries & Executables
+cloudflared.exe
+*.exe
+
+# Cache & Data Downloads
+rcaeval_cache/
+sample_metrics.parquet
+__pycache__/
+*.pyc
+
+# Environment & OS files
+.DS_Store
+Thumbs.db

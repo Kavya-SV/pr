@@ -1,0 +1,7 @@
+{
+  "total_cases_evaluated": 25,
+  "top1_accuracy": 80.0,
+  "top3_accuracy": 100.0,
+  "mean_reciprocal_rank": 0.867,
+  "benchmark_dataset": "RCAEval (RE1-OB: Online Boutique)"
+}

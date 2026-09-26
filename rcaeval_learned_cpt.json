@@ -1,0 +1,62 @@
+{
+  "cpu": {
+    "high_cpu": 1.0,
+    "high_memory": 0.0,
+    "db_slow": 0.0,
+    "high_request_rate": 1.0,
+    "packet_loss": 0.0,
+    "dependency_error": 0.0,
+    "high_latency": 0.0,
+    "errors_5xx": 1.0,
+    "request_timeout": 0.0,
+    "user_complaints": 1.0
+  },
+  "mem": {
+    "high_cpu": 1.0,
+    "high_memory": 1.0,
+    "db_slow": 0.0,
+    "high_request_rate": 0.0,
+    "packet_loss": 0.0,
+    "dependency_error": 0.0,
+    "high_latency": 0.0,
+    "errors_5xx": 1.0,
+    "request_timeout": 0.0,
+    "user_complaints": 1.0
+  },
+  "delay": {
+    "high_cpu": 0.0,
+    "high_memory": 0.0,
+    "db_slow": 0.0,
+    "high_request_rate": 0.0,
+    "packet_loss": 0.0,
+    "dependency_error": 0.6,
+    "high_latency": 1.0,
+    "errors_5xx": 0.6,
+    "request_timeout": 0.6,
+    "user_complaints": 0.6
+  },
+  "loss": {
+    "high_cpu": 0.0,
+    "high_memory": 0.0,
+    "db_slow": 0.0,
+    "high_request_rate": 0.0,
+    "packet_loss": 1.0,
+    "dependency_error": 0.2,
+    "high_latency": 0.2,
+    "errors_5xx": 0.2,
+    "request_timeout": 0.2,
+    "user_complaints": 0.4
+  },
+  "disk": {
+    "high_cpu": 1.0,
+    "high_memory": 0.0,
+    "db_slow": 0.0,
+    "high_request_rate": 0.0,
+    "packet_loss": 0.0,
+    "dependency_error": 0.0,
+    "high_latency": 0.0,
+    "errors_5xx": 0.0,
+    "request_timeout": 0.0,
+    "user_complaints": 0.0
+  }
+}

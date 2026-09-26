@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BayesRCA — Probabilistic Root Cause Analysis System</title>
+  <meta name="description" content="Bayesian Root Cause Analysis web platform for incident diagnostics using multi-layer probabilistic causal DAG inference.">
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+
+    <!-- App Header & Navigation -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="6" cy="6" r="3"></circle>
+            <circle cx="6" cy="18" r="3"></circle>
+            <circle cx="18" cy="12" r="3"></circle>
+            <line x1="8.59" y1="7.49" x2="15.42" y2="10.51"></line>
+            <line x1="8.59" y1="16.51" x2="15.42" y2="13.49"></line>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <h1>
+            BayesRCA
+            <span class="brand-badge">Bayesian Inference Engine</span>
+          </h1>
+          <p>Probabilistic Root-Cause Diagnosis & Causal Belief Network</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="system-status">
+          <span class="status-dot"></span>
+          <span>DAG Engine: Ready</span>
+        </div>
+        <button id="history-btn" class="btn-secondary" title="View Recent Incident Runs">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>Incident Log</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- SECTION 8: Dashboard Statistics -->
+    <section class="stats-grid" aria-label="Incident Statistics">
+      <div class="stat-card blue">
+        <div>
+          <div class="stat-header">Total Incidents</div>
+          <div class="stat-value" id="stat-total-incidents">128</div>
+          <div class="stat-sub">Historical diagnosis sessions</div>
+        </div>
+        <div class="stat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      <div class="stat-card amber">
+        <div>
+          <div class="stat-header">High Severity</div>
+          <div class="stat-value" id="stat-high-severity">17</div>
+          <div class="stat-sub">Posterior confidence &gt; 60%</div>
+        </div>
+        <div class="stat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+        </div>
+      </div>
+
+      <div class="stat-card emerald">
+        <div>
+          <div class="stat-header">Avg. Analysis Time</div>
+          <div class="stat-value" id="stat-avg-time">2.4 sec</div>
+          <div class="stat-sub">Belief propagation latency</div>
+        </div>
+        <div class="stat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      <div class="stat-card purple">
+        <div>
+          <div class="stat-header">RCAEval Benchmark</div>
+          <div class="stat-value" style="font-size: 1.6rem; color: #c084fc;">80.0% / 100%</div>
+          <div class="stat-sub">Top-1 / Top-3 Acc (RE1-OB) • MRR: 0.867</div>
+        </div>
+        <div class="stat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Preset Scenarios Selector -->
+    <div class="presets-section">
+      <span class="presets-label">Quick Scenario Presets:</span>
+      <div class="preset-pills">
+        <button class="preset-pill" data-preset="traffic-spike">
+          <span>⚡ Traffic Surge</span>
+        </button>
+        <button class="preset-pill" data-preset="db-overload">
+          <span>🗄️ Database Deadlock</span>
+        </button>
+        <button class="preset-pill" data-preset="memory-leak">
+          <span>🧠 Memory Leak</span>
+        </button>
+        <button class="preset-pill" data-preset="dependency-outage">
+          <span>🔌 Downstream Outage</span>
+        </button>
+        <button class="preset-pill" data-preset="network-partition">
+          <span>🌐 Network Degradation</span>
+        </button>
+        <button class="preset-pill" data-preset="clean">
+          <span>Reset</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ====================================================================
+         SCREEN 1: Dashboard — Incident Input (Section 1)
+         ==================================================================== -->
+    <main id="input-screen">
+      <div class="incident-input-container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">1. Dashboard — Incident Input</h2>
+            <p class="section-desc">
+              Select all observable symptoms reported by alerts, telemetry, or user tickets. The Bayesian engine will instantiate these as prior evidence nodes.
+            </p>
+          </div>
+          <div class="selection-actions">
+            <span class="selected-count-badge" id="selected-count-badge">0 symptoms selected</span>
+            <button id="clear-all-btn" class="btn-ghost">Clear Selection</button>
+          </div>
+        </div>
+
+        <!-- Checkbox grid for 10 symptoms -->
+        <div class="symptoms-grid" id="symptoms-grid">
+          <!-- Dynamically populated via JS with icons and categories -->
+        </div>
+
+        <!-- Action Bar with ANALYZE INCIDENT button -->
+        <div class="analyze-action-bar">
+          <div class="analyze-help-text">
+            <span>Press</span>
+            <kbd class="key-badge">Ctrl</kbd> + <kbd class="key-badge">Enter</kbd>
+            <span>or click button to execute Bayesian inference</span>
+          </div>
+          <button id="analyze-btn" class="btn-primary-glow">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>ANALYZE INCIDENT</span>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- ====================================================================
+         SCREEN 2: Bayesian Analysis Results View
+         ==================================================================== -->
+    <section id="results-screen" class="results-container">
+      
+      <!-- Results Navigation Header -->
+      <div class="results-nav-bar">
+        <button id="new-analysis-btn" class="btn-back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>← New Incident Analysis</span>
+        </button>
+
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span class="results-meta-pill" id="results-meta-pill">Bayesian Belief Propagation Complete</span>
+          <button id="export-report-btn" class="btn-secondary" title="Export Diagnosis Report">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Export Report</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="results-grid">
+        
+        <!-- SECTION 3: Bayesian Network Visualization -->
+        <div class="analysis-card">
+          <div class="card-title-row">
+            <div class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+              <span>3. Bayesian Network Visualization (Causal DAG)</span>
+            </div>
+            <span style="font-size: 0.8rem; color: var(--text-dim);">Root Causes → Intermediate Effects → Observable Symptoms</span>
+          </div>
+
+          <div class="network-viz-container" id="network-viz">
+            <!-- Toolbar for Zoom/Pan -->
+            <div class="network-toolbar">
+              <button class="network-tool-btn" id="zoom-in-btn" title="Zoom In">+</button>
+              <button class="network-tool-btn" id="zoom-out-btn" title="Zoom Out">-</button>
+              <button class="network-tool-btn" id="zoom-reset-btn" title="Reset View">Reset</button>
+            </div>
+
+            <!-- Legend -->
+            <div class="network-legend">
+              <div class="legend-item">
+                <span class="legend-dot root"></span>
+                <span>Root Cause</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot intermediate"></span>
+                <span>Intermediate Effect</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot evidence-active"></span>
+                <span>Selected Evidence</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot evidence-inactive"></span>
+                <span>Unobserved</span>
+              </div>
+            </div>
+
+            <!-- Interactive SVG Canvas -->
+            <svg id="svg-canvas" class="svg-canvas" viewBox="0 0 1420 490">
+              <g id="svg-viewport"></g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- SECTION 4: Root Cause Probability Table -->
+        <div class="analysis-card">
+          <div class="card-title-row">
+            <div class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              <span>4. Root Cause Probability Ranking</span>
+            </div>
+            <span style="font-size: 0.775rem; color: var(--text-dim); font-family: var(--font-mono);">Posterior P(Cause | Evidence)</span>
+          </div>
+
+          <table class="root-cause-table">
+            <thead>
+              <tr>
+                <th style="width: 45px;">Rank</th>
+                <th>Hypothesis (Root Cause)</th>
+                <th>Prior P(H)</th>
+                <th style="text-align: right;">Posterior Probability</th>
+              </tr>
+            </thead>
+            <tbody id="rankings-table-body">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- SECTION 5: "Why this probability?" -->
+        <div class="analysis-card">
+          <div class="card-title-row">
+            <div class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              <span>5. "Why this probability?" (Causal Evidence Attribution)</span>
+            </div>
+            <span style="font-size: 0.8rem; color: var(--text-dim);">Traceability &amp; Explainability Breakdown</span>
+          </div>
+
+          <div class="why-section-grid" id="why-container">
+            <!-- Rendered dynamically for each root cause -->
+          </div>
+        </div>
+
+        <!-- SECTION 6: Selected Evidence Summary -->
+        <div class="analysis-card">
+          <div class="card-title-row">
+            <div class="card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <span>6. Selected Evidence Summary</span>
+            </div>
+            <span style="font-size: 0.8rem; color: var(--text-dim);">Observed Symptoms Input</span>
+          </div>
+
+          <div class="evidence-chips-wrapper" id="evidence-summary-container">
+            <!-- Chips for each observed symptom -->
+          </div>
+        </div>
+
+        <!-- SECTION 7: Recommended Investigation / Action -->
+        <div class="recommendations-wrapper" id="recommendations-container">
+          <!-- Rendered dynamically for top root cause -->
+        </div>
+
+      </div>
+
+      <!-- Bottom return button -->
+      <div style="text-align: center; margin-top: 2rem;">
+        <button id="bottom-new-analysis-btn" class="btn-back" style="display: inline-flex;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>← Start New Incident Diagnosis</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- Computing Overlay (Section 2 Simulation) -->
+    <div class="computing-overlay" id="computing-overlay">
+      <div class="computing-spinner"></div>
+      <div class="computing-title">Executing Bayesian Inference...</div>
+      <div class="computing-step" id="computing-step">Evaluating Conditional Probability Tables...</div>
+    </div>
+
+    <!-- History / Incident Log Drawer -->
+    <div class="drawer-backdrop" id="history-backdrop"></div>
+    <aside class="history-drawer" id="history-drawer">
+      <div class="drawer-header">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">Incident Run History</h3>
+        <button id="close-history-btn" class="btn-ghost" style="font-size: 1.25rem;">&times;</button>
+      </div>
+      <div class="history-list" id="history-list">
+        <!-- Dynamically rendered -->
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
