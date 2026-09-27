@@ -1,0 +1,278 @@
+{
+  "rcaeval_total_cases": 735,
+  "online_boutique_cases": 125,
+  "training_cases_count": 100,
+  "testing_cases_count": 25,
+  "train_test_split": "80 / 20 Stratified (100 Train / 25 Test)",
+  "leak_free": true,
+  "cross_validation_5fold_acc_mean": 78.4,
+  "cross_validation_5fold_acc_std": 6.0,
+  "cross_validation_5fold_mrr": 0.887,
+  "test_top1_accuracy": 88.0,
+  "test_top3_accuracy": 100.0,
+  "test_mean_reciprocal_rank": 0.94,
+  "confusion_matrix": {
+    "cpu": {
+      "cpu": 4,
+      "mem": 0,
+      "delay": 0,
+      "loss": 0,
+      "disk": 1
+    },
+    "mem": {
+      "cpu": 0,
+      "mem": 5,
+      "delay": 0,
+      "loss": 0,
+      "disk": 0
+    },
+    "delay": {
+      "cpu": 0,
+      "mem": 0,
+      "delay": 5,
+      "loss": 0,
+      "disk": 0
+    },
+    "loss": {
+      "cpu": 0,
+      "mem": 0,
+      "delay": 0,
+      "loss": 3,
+      "disk": 2
+    },
+    "disk": {
+      "cpu": 0,
+      "mem": 0,
+      "delay": 0,
+      "loss": 0,
+      "disk": 5
+    }
+  },
+  "test_evaluations": [
+    {
+      "case": "re1ob_cartservice_cpu_3",
+      "ground_truth": "traffic_spike",
+      "ground_truth_fault": "cpu",
+      "predicted_top1": "traffic_spike",
+      "top1_confidence": 99.0,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_checkoutservice_cpu_1",
+      "ground_truth": "traffic_spike",
+      "ground_truth_fault": "cpu",
+      "predicted_top1": "db_overload",
+      "top1_confidence": 88.3,
+      "rank": 2,
+      "correct_top1": false
+    },
+    {
+      "case": "re1ob_checkoutservice_cpu_5",
+      "ground_truth": "traffic_spike",
+      "ground_truth_fault": "cpu",
+      "predicted_top1": "traffic_spike",
+      "top1_confidence": 99.0,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_currencyservice_cpu_5",
+      "ground_truth": "traffic_spike",
+      "ground_truth_fault": "cpu",
+      "predicted_top1": "traffic_spike",
+      "top1_confidence": 99.0,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_cartservice_cpu_2",
+      "ground_truth": "traffic_spike",
+      "ground_truth_fault": "cpu",
+      "predicted_top1": "traffic_spike",
+      "top1_confidence": 99.0,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_cartservice_mem_3",
+      "ground_truth": "memory_leak",
+      "ground_truth_fault": "mem",
+      "predicted_top1": "memory_leak",
+      "top1_confidence": 99.6,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_checkoutservice_mem_1",
+      "ground_truth": "memory_leak",
+      "ground_truth_fault": "mem",
+      "predicted_top1": "memory_leak",
+      "top1_confidence": 99.6,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_checkoutservice_mem_5",
+      "ground_truth": "memory_leak",
+      "ground_truth_fault": "mem",
+      "predicted_top1": "memory_leak",
+      "top1_confidence": 65.9,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_currencyservice_mem_5",
+      "ground_truth": "memory_leak",
+      "ground_truth_fault": "mem",
+      "predicted_top1": "memory_leak",
+      "top1_confidence": 99.6,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_cartservice_mem_2",
+      "ground_truth": "memory_leak",
+      "ground_truth_fault": "mem",
+      "predicted_top1": "memory_leak",
+      "top1_confidence": 99.6,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_cartservice_delay_3",
+      "ground_truth": "dependency_failure",
+      "ground_truth_fault": "delay",
+      "predicted_top1": "dependency_failure",
+      "top1_confidence": 98.8,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_checkoutservice_delay_1",
+      "ground_truth": "dependency_failure",
+      "ground_truth_fault": "delay",
+      "predicted_top1": "dependency_failure",
+      "top1_confidence": 73.7,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_checkoutservice_delay_5",
+      "ground_truth": "dependency_failure",
+      "ground_truth_fault": "delay",
+      "predicted_top1": "dependency_failure",
+      "top1_confidence": 73.7,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_currencyservice_delay_5",
+      "ground_truth": "dependency_failure",
+      "ground_truth_fault": "delay",
+      "predicted_top1": "dependency_failure",
+      "top1_confidence": 99.2,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_cartservice_delay_2",
+      "ground_truth": "dependency_failure",
+      "ground_truth_fault": "delay",
+      "predicted_top1": "dependency_failure",
+      "top1_confidence": 98.8,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_cartservice_loss_3",
+      "ground_truth": "network_failure",
+      "ground_truth_fault": "loss",
+      "predicted_top1": "db_overload",
+      "top1_confidence": 60.0,
+      "rank": 2,
+      "correct_top1": false
+    },
+    {
+      "case": "re1ob_checkoutservice_loss_1",
+      "ground_truth": "network_failure",
+      "ground_truth_fault": "loss",
+      "predicted_top1": "db_overload",
+      "top1_confidence": 60.0,
+      "rank": 2,
+      "correct_top1": false
+    },
+    {
+      "case": "re1ob_checkoutservice_loss_5",
+      "ground_truth": "network_failure",
+      "ground_truth_fault": "loss",
+      "predicted_top1": "network_failure",
+      "top1_confidence": 65.1,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_currencyservice_loss_5",
+      "ground_truth": "network_failure",
+      "ground_truth_fault": "loss",
+      "predicted_top1": "network_failure",
+      "top1_confidence": 65.1,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_cartservice_loss_2",
+      "ground_truth": "network_failure",
+      "ground_truth_fault": "loss",
+      "predicted_top1": "network_failure",
+      "top1_confidence": 65.1,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_cartservice_disk_3",
+      "ground_truth": "db_overload",
+      "ground_truth_fault": "disk",
+      "predicted_top1": "db_overload",
+      "top1_confidence": 97.7,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_checkoutservice_disk_1",
+      "ground_truth": "db_overload",
+      "ground_truth_fault": "disk",
+      "predicted_top1": "db_overload",
+      "top1_confidence": 88.3,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_checkoutservice_disk_5",
+      "ground_truth": "db_overload",
+      "ground_truth_fault": "disk",
+      "predicted_top1": "db_overload",
+      "top1_confidence": 88.3,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_currencyservice_disk_5",
+      "ground_truth": "db_overload",
+      "ground_truth_fault": "disk",
+      "predicted_top1": "db_overload",
+      "top1_confidence": 76.3,
+      "rank": 1,
+      "correct_top1": true
+    },
+    {
+      "case": "re1ob_cartservice_disk_2",
+      "ground_truth": "db_overload",
+      "ground_truth_fault": "disk",
+      "predicted_top1": "db_overload",
+      "top1_confidence": 97.7,
+      "rank": 1,
+      "correct_top1": true
+    }
+  ]
+}

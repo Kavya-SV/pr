@@ -594,7 +594,6 @@ class AppController {
     // Connections list: [source, target]
     const connections = [
       // Root to Intermediate
-      ['traffic_spike', 'high_request_rate'],
       ['traffic_spike', 'inter_cpu_strain'],
       ['traffic_spike', 'inter_mem_saturation'],
       ['traffic_spike', 'inter_db_strain'],
@@ -612,6 +611,7 @@ class AppController {
 
       // Layer 2 (Intermediate) to Layer 3 (Observable Symptoms)
       ['inter_cpu_strain', 'high_cpu'],
+      ['inter_cpu_strain', 'high_request_rate'],
       ['inter_cpu_strain', 'high_latency'],
       ['inter_cpu_strain', 'errors_5xx'],
       ['inter_cpu_strain', 'request_timeout'],

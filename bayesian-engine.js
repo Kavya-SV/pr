@@ -168,10 +168,9 @@ export const OBSERVABLE_SYMPTOMS = [
     name: 'High Request Rate',
     category: 'Traffic',
     icon: 'activity',
-    // Strong signature evidence for Traffic Spike
-    parents: ['traffic_spike'],
+    parents: ['inter_cpu_strain'],
     leak: 0.03,
-    weights: { traffic_spike: 0.95 }
+    weights: { inter_cpu_strain: 0.88 }
   },
   {
     id: 'packet_loss',
