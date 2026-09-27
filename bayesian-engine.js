@@ -8,12 +8,14 @@
  *   Layer 3: Observable Symptoms (Incident Evidence)
  */
 
+import { TRAINED_MODEL_PARAMS } from './trained_model_params.js';
+
 export const ROOT_CAUSES = [
   {
     id: 'traffic_spike',
     name: 'Traffic Spike',
     code: 'TS',
-    prior: 0.12,
+    prior: TRAINED_MODEL_PARAMS.priors['traffic_spike'] || 0.198,
     description: 'Sudden, unexpected surge in user traffic exceeding capacity.',
     investigationSteps: [
       'Check incoming traffic volume and requests per second (RPS) at API Gateway / Load Balancer.',
@@ -27,7 +29,7 @@ export const ROOT_CAUSES = [
     id: 'db_overload',
     name: 'DB Overload',
     code: 'DB',
-    prior: 0.12,
+    prior: TRAINED_MODEL_PARAMS.priors['db_overload'] || 0.198,
     description: 'Database saturation from slow queries, connection pool exhaustion, or deadlocks.',
     investigationSteps: [
       'Examine active database connection pool usage and queue depth.',
@@ -41,7 +43,7 @@ export const ROOT_CAUSES = [
     id: 'memory_leak',
     name: 'Memory Leak',
     code: 'ML',
-    prior: 0.12,
+    prior: TRAINED_MODEL_PARAMS.priors['memory_leak'] || 0.181,
     description: 'Progressive uncollected memory allocation leading to heavy GC pauses or OOM kills.',
     investigationSteps: [
       'Inspect heap memory trends over time (look for saw-tooth pattern with rising baseline).',
@@ -55,7 +57,7 @@ export const ROOT_CAUSES = [
     id: 'dependency_failure',
     name: 'Dependency Failure',
     code: 'DF',
-    prior: 0.10,
+    prior: TRAINED_MODEL_PARAMS.priors['dependency_failure'] || 0.198,
     description: 'Downstream third-party SaaS, payment provider, or microservice degradation.',
     investigationSteps: [
       'Identify failing outbound RPC / HTTP calls and status codes (502, 503, 504).',
@@ -69,7 +71,7 @@ export const ROOT_CAUSES = [
     id: 'network_failure',
     name: 'Network Failure',
     code: 'NF',
-    prior: 0.08,
+    prior: TRAINED_MODEL_PARAMS.priors['network_failure'] || 0.225,
     description: 'Infrastructure packet drop, VPC routing anomaly, DNS latency, or MTU misconfiguration.',
     investigationSteps: [
       'Check TCP retransmission rates and packet drop counters across internal interfaces.',
@@ -86,51 +88,51 @@ export const INTERMEDIATE_EFFECTS = [
     id: 'inter_cpu_strain',
     name: 'CPU Exhaustion',
     parents: ['traffic_spike', 'memory_leak', 'db_overload'],
-    leak: 0.02,
-    weights: {
-      traffic_spike: 0.85,
-      memory_leak: 0.80, // Heavy GC cycles consuming 100% CPU
-      db_overload: 0.25  // DB worker CPU
+    leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_cpu_strain'] || 0.02,
+    weights: TRAINED_MODEL_PARAMS.intermediateWeights['inter_cpu_strain'] || {
+      traffic_spike: 0.90,
+      memory_leak: 0.95,
+      db_overload: 0.35
     }
   },
   {
     id: 'inter_db_strain',
     name: 'DB Latency Bottleneck',
     parents: ['db_overload', 'traffic_spike'],
-    leak: 0.02,
-    weights: {
-      db_overload: 0.90,
-      traffic_spike: 0.35 // Higher load increases DB query latency slightly
+    leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_db_strain'] || 0.02,
+    weights: TRAINED_MODEL_PARAMS.intermediateWeights['inter_db_strain'] || {
+      db_overload: 0.88,
+      traffic_spike: 0.35
     }
   },
   {
     id: 'inter_mem_saturation',
     name: 'Memory Saturation',
     parents: ['memory_leak', 'traffic_spike'],
-    leak: 0.02,
-    weights: {
-      memory_leak: 0.95,  // Primary driver of heap exhaustion
-      traffic_spike: 0.25 // In-flight request buffers
+    leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_mem_saturation'] || 0.02,
+    weights: TRAINED_MODEL_PARAMS.intermediateWeights['inter_mem_saturation'] || {
+      memory_leak: 0.94,
+      traffic_spike: 0.38
     }
   },
   {
     id: 'inter_downstream_strain',
     name: 'Downstream Disconnect',
     parents: ['dependency_failure', 'network_failure'],
-    leak: 0.02,
-    weights: {
-      dependency_failure: 0.90,
-      network_failure: 0.40
+    leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_downstream_strain'] || 0.02,
+    weights: TRAINED_MODEL_PARAMS.intermediateWeights['inter_downstream_strain'] || {
+      dependency_failure: 0.95,
+      network_failure: 0.92
     }
   },
   {
     id: 'inter_transport_drop',
     name: 'Transport Degradation',
     parents: ['network_failure', 'traffic_spike'],
-    leak: 0.02,
-    weights: {
-      network_failure: 0.90,
-      traffic_spike: 0.15 // Heavy network buffer overflow during extreme traffic
+    leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_transport_drop'] || 0.02,
+    weights: TRAINED_MODEL_PARAMS.intermediateWeights['inter_transport_drop'] || {
+      network_failure: 0.85,
+      traffic_spike: 0.54
     }
   }
 ];
@@ -142,7 +144,7 @@ export const OBSERVABLE_SYMPTOMS = [
     category: 'Resource',
     icon: 'cpu',
     parents: ['inter_cpu_strain'],
-    leak: 0.03,
+    leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_cpu_strain'] || 0.02,
     weights: { inter_cpu_strain: 0.92 }
   },
   {
@@ -151,7 +153,7 @@ export const OBSERVABLE_SYMPTOMS = [
     category: 'Resource',
     icon: 'database',
     parents: ['inter_mem_saturation'],
-    leak: 0.02,
+    leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_mem_saturation'] || 0.02,
     weights: { inter_mem_saturation: 0.95 }
   },
   {
@@ -160,7 +162,7 @@ export const OBSERVABLE_SYMPTOMS = [
     category: 'Data',
     icon: 'server',
     parents: ['inter_db_strain'],
-    leak: 0.02,
+    leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_db_strain'] || 0.02,
     weights: { inter_db_strain: 0.94 }
   },
   {
@@ -169,7 +171,7 @@ export const OBSERVABLE_SYMPTOMS = [
     category: 'Traffic',
     icon: 'activity',
     parents: ['inter_cpu_strain'],
-    leak: 0.03,
+    leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_cpu_strain'] || 0.02,
     weights: { inter_cpu_strain: 0.88 }
   },
   {
@@ -178,7 +180,7 @@ export const OBSERVABLE_SYMPTOMS = [
     category: 'Network',
     icon: 'wifi-off',
     parents: ['inter_transport_drop'],
-    leak: 0.02,
+    leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_transport_drop'] || 0.02,
     weights: { inter_transport_drop: 0.92 }
   },
   {
@@ -187,7 +189,7 @@ export const OBSERVABLE_SYMPTOMS = [
     category: 'External',
     icon: 'alert-triangle',
     parents: ['inter_downstream_strain'],
-    leak: 0.02,
+    leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_downstream_strain'] || 0.02,
     weights: { inter_downstream_strain: 0.92 }
   },
   {
@@ -196,7 +198,7 @@ export const OBSERVABLE_SYMPTOMS = [
     category: 'Performance',
     icon: 'clock',
     parents: ['inter_cpu_strain', 'inter_db_strain', 'inter_downstream_strain', 'inter_transport_drop'],
-    leak: 0.03,
+    leak: 0.02,
     weights: {
       inter_cpu_strain: 0.75,
       inter_db_strain: 0.80,
