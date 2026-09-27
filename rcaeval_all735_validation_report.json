@@ -212,32 +212,27 @@
     "intermediate_weights": {
       "inter_cpu_strain": {
         "traffic_spike": 0.902,
-        "memory_leak": 0.958,
-        "db_overload": 0.893
+        "memory_leak": 0.958
       },
       "inter_db_strain": {
-        "db_overload": 0.235,
-        "traffic_spike": 0.355
+        "db_overload": 0.235
       },
       "inter_mem_saturation": {
-        "memory_leak": 0.949,
-        "traffic_spike": 0.389
+        "memory_leak": 0.949
       },
       "inter_downstream_strain": {
-        "dependency_failure": 0.979,
-        "network_failure": 0.951
+        "dependency_failure": 0.979
       },
       "inter_transport_drop": {
-        "network_failure": 0.861,
-        "traffic_spike": 0.543
+        "network_failure": 0.861
       }
     },
     "leak_probabilities": {
-      "inter_cpu_strain": 0.033,
-      "inter_db_strain": 0.038,
-      "inter_mem_saturation": 0.039,
-      "inter_downstream_strain": 0.037,
-      "inter_transport_drop": 0.037
+      "inter_cpu_strain": 0.039,
+      "inter_db_strain": 0.044,
+      "inter_mem_saturation": 0.045,
+      "inter_downstream_strain": 0.044,
+      "inter_transport_drop": 0.043
     }
   }
 }

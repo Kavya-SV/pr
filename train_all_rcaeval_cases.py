@@ -238,11 +238,11 @@ for rc in rcs:
 
 # Learn empirical causal weights for Noisy-OR graph
 intermediate_effects = {
-    'inter_cpu_strain': ['traffic_spike', 'memory_leak', 'db_overload'],
-    'inter_db_strain': ['db_overload', 'traffic_spike'],
-    'inter_mem_saturation': ['memory_leak', 'traffic_spike'],
-    'inter_downstream_strain': ['dependency_failure', 'network_failure'],
-    'inter_transport_drop': ['network_failure', 'traffic_spike']
+    'inter_cpu_strain': ['traffic_spike', 'memory_leak'],
+    'inter_db_strain': ['db_overload'],
+    'inter_mem_saturation': ['memory_leak'],
+    'inter_downstream_strain': ['dependency_failure'],
+    'inter_transport_drop': ['network_failure']
 }
 
 learned_inter_weights = {}

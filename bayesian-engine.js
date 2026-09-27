@@ -87,52 +87,47 @@ export const INTERMEDIATE_EFFECTS = [
   {
     id: 'inter_cpu_strain',
     name: 'CPU Exhaustion',
-    parents: ['traffic_spike', 'memory_leak', 'db_overload'],
+    parents: ['traffic_spike', 'memory_leak'],
     leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_cpu_strain'] || 0.02,
     weights: TRAINED_MODEL_PARAMS.intermediateWeights['inter_cpu_strain'] || {
       traffic_spike: 0.90,
-      memory_leak: 0.95,
-      db_overload: 0.35
+      memory_leak: 0.95
     }
   },
   {
     id: 'inter_db_strain',
     name: 'DB Latency Bottleneck',
-    parents: ['db_overload', 'traffic_spike'],
+    parents: ['db_overload'],
     leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_db_strain'] || 0.02,
     weights: TRAINED_MODEL_PARAMS.intermediateWeights['inter_db_strain'] || {
-      db_overload: 0.88,
-      traffic_spike: 0.35
+      db_overload: 0.88
     }
   },
   {
     id: 'inter_mem_saturation',
     name: 'Memory Saturation',
-    parents: ['memory_leak', 'traffic_spike'],
+    parents: ['memory_leak'],
     leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_mem_saturation'] || 0.02,
     weights: TRAINED_MODEL_PARAMS.intermediateWeights['inter_mem_saturation'] || {
-      memory_leak: 0.94,
-      traffic_spike: 0.38
+      memory_leak: 0.94
     }
   },
   {
     id: 'inter_downstream_strain',
     name: 'Downstream Disconnect',
-    parents: ['dependency_failure', 'network_failure'],
+    parents: ['dependency_failure'],
     leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_downstream_strain'] || 0.02,
     weights: TRAINED_MODEL_PARAMS.intermediateWeights['inter_downstream_strain'] || {
-      dependency_failure: 0.95,
-      network_failure: 0.92
+      dependency_failure: 0.95
     }
   },
   {
     id: 'inter_transport_drop',
     name: 'Transport Degradation',
-    parents: ['network_failure', 'traffic_spike'],
+    parents: ['network_failure'],
     leak: TRAINED_MODEL_PARAMS.leakProbabilities['inter_transport_drop'] || 0.02,
     weights: TRAINED_MODEL_PARAMS.intermediateWeights['inter_transport_drop'] || {
-      network_failure: 0.85,
-      traffic_spike: 0.54
+      network_failure: 0.85
     }
   }
 ];

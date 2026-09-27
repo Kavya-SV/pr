@@ -593,35 +593,26 @@ class AppController {
 
     // Connections list: [source, target]
     const connections = [
-      // Root to Intermediate
+      // Layer 1 (Root Causes) to Layer 2 (Intermediate Subsystems)
       ['traffic_spike', 'inter_cpu_strain'],
-      ['traffic_spike', 'inter_mem_saturation'],
-      ['traffic_spike', 'inter_db_strain'],
-
       ['memory_leak', 'inter_mem_saturation'],
       ['memory_leak', 'inter_cpu_strain'],
-
       ['db_overload', 'inter_db_strain'],
-      ['db_overload', 'inter_cpu_strain'],
-
       ['dependency_failure', 'inter_downstream_strain'],
-
       ['network_failure', 'inter_transport_drop'],
-      ['network_failure', 'inter_downstream_strain'],
 
       // Layer 2 (Intermediate) to Layer 3 (Observable Symptoms)
       ['inter_cpu_strain', 'high_cpu'],
       ['inter_cpu_strain', 'high_request_rate'],
       ['inter_cpu_strain', 'high_latency'],
       ['inter_cpu_strain', 'errors_5xx'],
-      ['inter_cpu_strain', 'request_timeout'],
 
       ['inter_mem_saturation', 'high_memory'],
+      ['inter_mem_saturation', 'request_timeout'],
 
       ['inter_db_strain', 'db_slow'],
       ['inter_db_strain', 'high_latency'],
       ['inter_db_strain', 'errors_5xx'],
-      ['inter_db_strain', 'request_timeout'],
 
       ['inter_downstream_strain', 'dependency_error'],
       ['inter_downstream_strain', 'high_latency'],
@@ -630,7 +621,6 @@ class AppController {
 
       ['inter_transport_drop', 'packet_loss'],
       ['inter_transport_drop', 'request_timeout'],
-      ['inter_transport_drop', 'high_latency'],
       ['inter_transport_drop', 'user_complaints']
     ];
 
